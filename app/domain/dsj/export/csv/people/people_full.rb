@@ -5,13 +5,16 @@
 #  or later. See the COPYING file at the top-level directory or at
 #  https://github.com/hitobito/hitobito_dsj.
 
-module Dsj::Group
-  extend ActiveSupport::Concern
+module Dsj::Export::Csv::People
+  module PeopleFull
+    extend ActiveSupport::Concern
 
-  included do
-    self.used_attributes += [:remarks, :members_count, :contact_history, :last_contact]
+    included do
+      alias_method_chain :person_attributes, :dsj
+    end
 
-    root_types Group::Dachverband
+    def person_attributes_with_dsj
+      person_attributes_without_dsj + [:tags]
+    end
   end
-
 end

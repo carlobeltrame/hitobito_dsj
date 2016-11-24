@@ -5,13 +5,7 @@
 #  or later. See the COPYING file at the top-level directory or at
 #  https://github.com/hitobito/hitobito_dsj.
 
-module Dsj::Group
-  extend ActiveSupport::Concern
-
-  included do
-    self.used_attributes += [:remarks, :members_count, :contact_history, :last_contact]
-
-    root_types Group::Dachverband
-  end
-
+ThinkingSphinx::Index.define_partial :person do
+  indexes function, website, contact_number
+  indexes tags.name, as: :tag
 end

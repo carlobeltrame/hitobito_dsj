@@ -5,13 +5,13 @@
 #  or later. See the COPYING file at the top-level directory or at
 #  https://github.com/hitobito/hitobito_dsj.
 
-module Dsj::Group
+module Dsj::GroupSerializer
   extend ActiveSupport::Concern
 
   included do
-    self.used_attributes += [:remarks, :members_count, :contact_history, :last_contact]
-
-    root_types Group::Dachverband
+    extension(:attrs) do |_|
+      map_properties :remarks, :members_count, :contact_history, :last_contact
+    end
   end
 
 end
