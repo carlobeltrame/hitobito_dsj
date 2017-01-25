@@ -36,12 +36,25 @@ module Dsj::Person
       [:informal_m_it, 'Caro'],
       [:formal_f_m_it, 'Gentili Signore, Egregi Signori']
     ]
+
+    validates :salutation, inclusion: Person::SALUTATIONS.map { |k, _| k.to_s }, allow_blank: true
   end
 
   def salutation_label
     if salutation.present?
-      Person::SALUTATIONS.find { |s| s.first == salutation.to_sym }.try(:second)
+      Person::SALUTATIONS.find { |s| s.first == salutation.to_sym }.second
     end
+  end
+
+  def salutation=(value)
+    super(value)
+
+    normalized = value.to_s.strip.downcase
+    Person::SALUTATIONS.each do |key, translated|
+      super(key) if translated.downcase == normalized
+    end
+
+    value
   end
 
 end
